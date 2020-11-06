@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.kindless.securitylearn.dao.UserRoleMapper">
+
+    <select id="getRolesByUserId" resultType="top.kindless.securitylearn.model.entity.RoleEntity">
+        select role.id,role.role_name,role.role_description from role right join user_role ur on role.id = ur.role_id where ur.user_id = #{userId};
+    </select>
+</mapper>
