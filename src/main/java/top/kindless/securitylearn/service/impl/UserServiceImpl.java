@@ -34,10 +34,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
+    public UserEntity loadUserById(Integer id) {
+        UserEntity userEntity = getById(id);
+        if (userEntity == null){
+            return null;
+        }
+        List<RoleEntity> roles = userRoleService.getRolesByUserId(id);
+        List<GrantedAuthority> authorities = roles.stream()
+                .map(roleEntity -> new SimpleGrantedAuthority(roleEntity.getRoleName()))
+                .collect(Collectors.toList());
+        userEntity.setAuthorities(authorities);
+        return userEntity;
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = getUserByUsername(username);
         if (userEntity == null)
-            throw new RuntimeException("用户名或密码错误");
+            throw new AuthenticationFailException("用户名或密码错误");
         List<RoleEntity> roles = userRoleService.getRolesByUserId(userEntity.getId());
         List<GrantedAuthority> authorities = roles.stream()
                 .map(roleEntity -> new SimpleGrantedAuthority(roleEntity.getRoleName()))
@@ -45,4 +59,5 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         userEntity.setAuthorities(authorities);
         return userEntity;
     }
+
 }

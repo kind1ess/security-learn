@@ -5,3 +5,8 @@ spring:
     password: kindless
 mybatis-plus:
   mapper-locations: classpath:/mappers/*.xml
+
+
+jwt:
+  secret-string: jkl4kls3a27dhf70gu6q3hw5p5biyi9sgdfsdf1c2ez
+  expiration: 72
