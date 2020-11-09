@@ -55,7 +55,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private Integer getUserId(HttpServletRequest request){
         String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (!authHeader.startsWith("Bearer ")){
+        if (authHeader == null || !authHeader.startsWith("Bearer ")){
             return null;
         }
         Claims claims = JwtUtil.verifyJwt(authHeader.substring(6));
