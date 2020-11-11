@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import top.kindless.securitylearn.dao.UserMapper;
-import top.kindless.securitylearn.exception.AuthenticationFailException;
 import top.kindless.securitylearn.model.entity.RoleEntity;
 import top.kindless.securitylearn.model.entity.UserEntity;
 import top.kindless.securitylearn.service.UserRoleService;
@@ -51,7 +50,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = getUserByUsername(username);
         if (userEntity == null)
-            throw new AuthenticationFailException("用户名或密码错误");
+            throw new UsernameNotFoundException("用户不存在");
         List<RoleEntity> roles = userRoleService.getRolesByUserId(userEntity.getId());
         List<GrantedAuthority> authorities = roles.stream()
                 .map(roleEntity -> new SimpleGrantedAuthority(roleEntity.getRoleName()))
