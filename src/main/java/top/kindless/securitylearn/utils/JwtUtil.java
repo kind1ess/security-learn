@@ -31,14 +31,12 @@ public class JwtUtil {
     public static String createJwt(int userId) {
         SecretKey key = generateKey();
         Date exp = new Date(System.currentTimeMillis() + 1000 * 3600 * expiration);
-        String jwt = Jwts.builder().claim("id", userId).setExpiration(exp).signWith(key).compact();
-        return jwt;
+        return Jwts.builder().claim("id", userId).setExpiration(exp).signWith(key).compact();
     }
 
     public static SecretKey generateKey() {
         // 最少43个字符
-        SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretString));
-        return key;
+        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretString));
     }
 
     public static Claims verifyJwt(String token) {

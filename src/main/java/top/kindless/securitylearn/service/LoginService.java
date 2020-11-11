@@ -2,7 +2,6 @@ package top.kindless.securitylearn.service;
 
 import org.springframework.lang.NonNull;
 import top.kindless.securitylearn.model.params.LoginParam;
-import top.kindless.securitylearn.model.params.LoginParamWithCaptcha;
 
 public interface LoginService {
 
